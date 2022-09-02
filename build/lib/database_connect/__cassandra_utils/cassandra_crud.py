@@ -1,4 +1,5 @@
 from cassandra import AlreadyExists
+from cassandra.cluster import NoHostAvailable                           
 import pandas as pd
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
@@ -22,7 +23,6 @@ class cassandra_operations:
     def session(self): 
 
         if cassandra_operations.global_session is None:
-            print("hello")
             cloud_config = {
                 'secure_connect_bundle': str(self.zip)
             }
@@ -33,6 +33,12 @@ class cassandra_operations:
         return cassandra_operations.global_session
 
       
+    def __get_keyspace_names(self):
+        keyspace_names = [keyspace.keyspace_name for keyspace in self.session.execute("select * from system_schema.keyspaces")]
+        if self.keyspace in keyspace_names:
+            self.__keyspace_is_available = True
+        else:
+            self.__keyspace_is_available = False
 
     def __get_table_names(self):
         table_names = [table.table_name for table in self.session.execute(f"select * from system_schema.tables where keyspace_name = '{self.keyspace}';")]
@@ -58,14 +64,17 @@ class cassandra_operations:
 
         
         """
-        
+        try:
+            self.__get_keyspace_names()
+        except NoHostAvailable:
+            raise LookupError(f"The Keyspace named {self.keyspace} is not available. You need to create it in datastax page.")
             
         if not self.__get_table_names():
-            query = f" CREATE TABLE IF NOT EXISTS {self.tab}({column});"
+            query = f" CREATE TABLE IF NOT EXISTS {self.table}({column});"
             self.session.execute(query).one()
         else:
-            print("table is already available in cassandra database")
-            raise AlreadyExists(f"table {self.tab} is already available in cassandra database")
+            
+            raise AlreadyExists(keyspace=self.keyspace, table=self.table)
 
             
         # print(row)
@@ -73,12 +82,12 @@ class cassandra_operations:
         # lg.log(logfile, f'cassandra db:'+
         #         f'\n database connected and {self.tab} has been created')
 
-    def insert_data(self, column,values):
+    def insert_data(self, columns,values):
         """ insert data into cassandra database
 
         -------
         PARAMS:
-            column: str
+            columns: str
             pass the column names along with the specific data type. 
 
             EXAMPLE:
@@ -95,12 +104,17 @@ class cassandra_operations:
         
         """
         if not self.__get_table_names():
-            self.create_table(column)
+            self.create_table(columns)
+
+        values = tuple(values.split(','))
+
         
-        query = f" insert into {self.tab} ({column}) values({values});"
+        column_names = ','.join([name.split(' ')[0] if len(name.split(' ')[0])>1 else name.split(' ')[1] for name in [column for column in columns.split(',')] ])
+        values 
+        query = f" insert into {self.table} ({column_names}) values{values};"
 
         self.session.execute(query).one()
-        
+        print(query)
 
 
 
@@ -109,7 +123,7 @@ class cassandra_operations:
 
     def read_data(self):
         
-        query = f"select * from {self.keyspace}.{self.tab};"
+        query = f"select * from {self.keyspace}.{self.table};"
         data_in_database = self.session.execute(query)
         column_names = data_in_database.column_names
 
@@ -135,7 +149,7 @@ class cassandra_operations:
         self.session.execute(query).one()
         
 
-    def cass_bulk_up(self, data):
+    def bulk_upload(self, data, **kwargs):
         """ insert data from dataframe object / csv /excel file to cassandra database 
         
         ------
@@ -154,9 +168,9 @@ class cassandra_operations:
         # inserting data from csv
         if type(data) != pd.core.frame.DataFrame:
             if data.endswith(".csv"):
-                data = pd.read_csv(data,encoding="utf8")
+                data = pd.read_csv(data,encoding="utf8", **kwargs)
             elif data.endswith(".xlsx"):
-                data = pd.read_excel(data, encoding="utf8")
+                data = pd.read_excel(data, encoding="utf8" **kwargs)
 
         column_names = ','.join([column for column in data.columns])
 
@@ -164,7 +178,7 @@ class cassandra_operations:
         for row in data:
             values_to_insert = ','.join([f"'{value}'" for value in row])
 
-            query = f" insert into {self.tab} ({column_names}) values({values_to_insert});"
+            query = f" insert into {self.table} ({column_names}) values({values_to_insert});"
 
             self.session.execute(query).one()
 

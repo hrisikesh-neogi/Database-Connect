@@ -1,4 +1,3 @@
-LICENSE
 README.md
 setup.py
 src/database_connect/__init__.py
