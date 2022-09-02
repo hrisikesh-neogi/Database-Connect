@@ -1,0 +1,32 @@
+Metadata-Version: 2.1
+Name: database-connect
+Version: 0.1.4
+Summary: A single Package for all the database connectivities  ( E.g : MySQL, MongoDb, Cassandra)
+Home-page: https://github.com/hrisikesh-neogi/Database-Hub
+Author: Hrisikesh Neogi
+Author-email: hrisikesh.neogi@gmail.com
+Project-URL: Bug Tracker, https://github.com/hrisikesh-neogi/Database-Hub/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# database-connect
+A single Package for all the database connectivities  ( E.g : MySQL, MongoDb, Cassandra)
+
+# How to Use
+
+* install latest package
+
+> * in jupyter notebook - 
+
+```bash
+    !pip install database-connect
+```
+
+> * in command prompt - 
+
+```bash
+    pip install database-connect

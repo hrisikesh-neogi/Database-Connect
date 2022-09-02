@@ -1,0 +1,4 @@
+1. python setup.py sdist bdist_wheel
+2. twine check dist/*
+
+3. twine upload --repository-url https://upload.pypi.org/legacy/ dist/* -u Hrisikesh -p _x)9?yiRv_vFn@G 
