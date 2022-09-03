@@ -1,6 +1,18 @@
 # database-connect
 A single Package for all the database connectivities  ( E.g : MySQL, MongoDb, Cassandra)
 
+## Release Note - version 0.1.6
+Support for Mongodb and Cassandra(Datastax Astra) are available.
+Features available:
+1. Create database/tables
+2. Read tables
+3. Update tables
+4. Delete records
+5. Csv/excel data insertion to the available databases.
+
+### Upcoming Plan - version 0.1.7
+Support for Mysql
+
 # How to Use
 
 * [install latest package](https://pypi.org/project/database-connect/)
@@ -56,5 +68,14 @@ A single Package for all the database connectivities  ( E.g : MySQL, MongoDb, Ca
                                                 client_secret,
                                                 keyspace,
                                                 table_name)
-    ```
+```
+
+
+
+* Creator - <a href="https://www.linkedin.com/in/hrisikesh-neogi/">
+Hrisikesh Neogi </a>
+
+For any suggestion, contact me on <a href="mailto: hrisikesh.neogi@gmail.com">hrisikesh.neogi@gmail.com</a>.
+                                    
+   
    
