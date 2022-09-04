@@ -10,7 +10,7 @@ from cassandra.auth import PlainTextAuthProvider
 class cassandra_operations:
 
     # session = None
-    global_session = None
+    global_session = None   #storing the session
     def __init__(self, zip_path, client_id, client_secret, keyspace,table_name):
         self.zip = zip_path
         self.client_id = client_id       
@@ -40,7 +40,10 @@ class cassandra_operations:
         del cassandra_operations.global_session
 
       
-    def __get_keyspace_names(self):
+    def __get_keyspace_names(self): 
+        """
+        Checking if the keyspace is available or not.        
+        """
         keyspace_names = [keyspace.keyspace_name for keyspace in self.session.execute("select * from system_schema.keyspaces")]
         if self.keyspace in keyspace_names:
             self.__keyspace_is_available = True
@@ -77,6 +80,14 @@ class cassandra_operations:
 
 
     def __get_table_names(self, table_name = None):
+        """Checking if a table is available in the keyspace or not
+
+        Args:
+            table_name (str, optional): The table name which is going to be checked. Defaults to None.
+
+        Returns:
+            Bool: True is the table is available, False is the table is not available
+        """
         table_names = [table.table_name for table in self.session.execute(f"select * from system_schema.tables where keyspace_name = '{self.keyspace}';")]
         if table_name == None:
             table = self.table
@@ -206,10 +217,6 @@ class cassandra_operations:
                 self.create_table(table_name=table_name, column= columns)  #creating new table
             table = table_name
 
-          
-
-        
-
         
         column_names = ','.join([name.split(' ')[0] if len(name.split(' ')[0])>1 else name.split(' ')[1] for name in [column for column in columns.split(',')] ])
         query = f" insert into {table} ({column_names}) values{values};"
@@ -223,6 +230,16 @@ class cassandra_operations:
 
 
     def read_data(self, table_name = None):
+        """ Read data from the table
+
+        Args:
+            table_name (str, optional): Manually table name could be passed, else will take from class instance. Defaults to None.
+
+        Returns:
+            pandas dataframe: All the data that is available in the table.
+        """
+
+
         if table_name == None:
             table = self.table
         else:
@@ -241,11 +258,12 @@ class cassandra_operations:
 
     def __create_Table_for_uploading_data(self,table_name, columns):
             """
-            if url/path is given, this function is being utilised
+            if create_new_Table is True in the bulk_upload function, this function is being utilised
+            This creates a new table with the column names of the dataset setting all the datatype as text in the table.
 
             PARAMS:
-            input_data:input give to the main function by user
-                columns : list of column names of pandas dataframe object
+                table_name: str: Name of the new table
+                columns : list: list of column names of pandas dataframe object
             """
             #by default we will be setting the first column as primary key
             columns = [column for column in columns ]
@@ -263,12 +281,21 @@ class cassandra_operations:
             # return table_name, column_names
 
 
-    def __load_data(self,data,columns = None, create_new_table = False, **kwargs):
+    def __load_data(self,data, create_new_table = False, **kwargs):
         """
         load data from pandas dataframr or from a path_string
 
         PARAMS:
-                data: path of data/url of data/pandas dataframe
+                data: str/pandas dataframe,
+                      path of data/url of data/pandas dataframe
+
+                create_new_table: Bool, default False
+                      If True, will create a new table with the column names from the dataframe.
+
+        RETURNS:
+            output_data: Data in a list format.
+            list_of_columns: List of column names
+
         """
 
         # raw_data_file = data
@@ -297,8 +324,16 @@ class cassandra_operations:
 
     def __upload(self,input_data, create_new_table,table_name):
         """
-       data_to_upload = list data to upload
-       data_columns = list of pandas dataframe columns
+            To upload the data to the table.
+
+        PARAMS:
+            input_data:str/pandas Dataframe object 
+
+            create_new_table: Bool, default False
+                      If True, will create a new table with the column names from the dataframe.
+
+            table_name: str: Name of the new table
+
        """ 
         
         # else:
@@ -357,8 +392,8 @@ class cassandra_operations:
                                 if True, creates a new table with the csv name or from the table_name parameter.
                                 if you have manually created a new table, you can keep it as False
               
-              **kwargs :
-                        any parameters of pandas read function.
+            
+        Current Supported Data Types as .csv or .xlsx files, but you can read any data with pandas
         
         """
         
@@ -382,9 +417,8 @@ class cassandra_operations:
     def update_table(self, where_condition, update_statement, table_name = None):  
         """
         where_condition: dict,
-                               to find the data in mongo database -- example of query "{"name":"sourav"}"
-                update_statement : dict,
-                               query to update the data in mongo database -- example of query 
+                               to find the data in mongo database -- example of query {"name":"sourav"}"                update_statement : dict,
+                               query to update the data in mongo database -- example of query {"name":"rahul"}
 
         EXAMPLE:
                 

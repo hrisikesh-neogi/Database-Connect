@@ -95,8 +95,7 @@ class mongo_operation:
 
         ------
         :params
-            collection_name: str,
-                    name of the collection in mongodb
+           
             record: dict,
                     the data to insert into mongodb. 
             
@@ -133,7 +132,6 @@ class mongo_operation:
         ------
         PARAMS: 
               data : path of the csv file or pandas dataframe object
-              collection_name : name of the collection
               
               **kwargs :
                         any parameters of pandas read function.
