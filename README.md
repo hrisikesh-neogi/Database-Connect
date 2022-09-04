@@ -70,7 +70,7 @@ Support for Mysql
                                                 table_name)
 ```
 
-
+ * Detailed Documentation: <a href = "https://github.com/hrisikesh-neogi/Database-Connect/blob/main/Database-Connect%20Detailed%20Documentation.ipynb" > Check Here</a>
 
 * Creator - <a href="https://www.linkedin.com/in/hrisikesh-neogi/">
 Hrisikesh Neogi </a>
