@@ -4,17 +4,17 @@ with open('README.md', 'r', encoding='utf-8') as f:
     long_description = f.read()
 
 
-setuptools.setup(
+setuptools.setup( 
     name = "database_connect",
-    version="0.1.5",
+    version="0.1.6",
     author="Hrisikesh Neogi",
     author_email="hrisikesh.neogi@gmail.com",
     description= "A single Package for all the database connectivities  ( E.g : MySQL, MongoDb, Cassandra)",
     long_description=long_description,
     long_description_content_type = "text/markdown",
-    url = "https://github.com/hrisikesh-neogi/Database-Hub",
+    url = "https://github.com/hrisikesh-neogi/Database-Connect",
     project_urls = {
-        "Bug Tracker":"https://github.com/hrisikesh-neogi/Database-Hub/issues"
+        "Bug Tracker":"https://github.com/hrisikesh-neogi/Database-Connect/issues"
     },
     classifiers= [
         "Programming Language :: Python :: 3",
@@ -31,7 +31,8 @@ setuptools.setup(
         'dnspython',
         'cassandra-driver',
         'pandas',
-        'numpy'
+        'numpy',
+        'ensure'
 
     ],
 

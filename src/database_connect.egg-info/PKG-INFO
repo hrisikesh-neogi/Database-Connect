@@ -1,11 +1,11 @@
 Metadata-Version: 2.1
 Name: database-connect
-Version: 0.1.5
+Version: 0.1.6
 Summary: A single Package for all the database connectivities  ( E.g : MySQL, MongoDb, Cassandra)
-Home-page: https://github.com/hrisikesh-neogi/Database-Hub
+Home-page: https://github.com/hrisikesh-neogi/Database-Connect
 Author: Hrisikesh Neogi
 Author-email: hrisikesh.neogi@gmail.com
-Project-URL: Bug Tracker, https://github.com/hrisikesh-neogi/Database-Hub/issues
+Project-URL: Bug Tracker, https://github.com/hrisikesh-neogi/Database-Connect/issues
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
@@ -14,6 +14,18 @@ Description-Content-Type: text/markdown
 
 # database-connect
 A single Package for all the database connectivities  ( E.g : MySQL, MongoDb, Cassandra)
+
+## Release Note - version 0.1.6
+Support for Mongodb and Cassandra(Datastax Astra) are available.
+Features available:
+1. Create database/tables
+2. Read tables
+3. Update tables
+4. Delete records
+5. Csv/excel data insertion to the available databases.
+
+### Upcoming Plan - version 0.1.7
+Support for Mysql
 
 # How to Use
 
@@ -70,5 +82,14 @@ A single Package for all the database connectivities  ( E.g : MySQL, MongoDb, Ca
                                                 client_secret,
                                                 keyspace,
                                                 table_name)
-    ```
+```
+
+ * Detailed Documentation: <a href = "https://github.com/hrisikesh-neogi/Database-Connect/blob/main/Database-Connect%20Detailed%20Documentation.ipynb" > Check Here</a>
+
+* Creator - <a href="https://www.linkedin.com/in/hrisikesh-neogi/">
+Hrisikesh Neogi </a>
+
+For any suggestion, contact me on <a href="mailto: hrisikesh.neogi@gmail.com">hrisikesh.neogi@gmail.com</a>.
+                                    
+   
    
