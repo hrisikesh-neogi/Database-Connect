@@ -1,7 +1,7 @@
 # database-connect
 A single Package for all the database connectivities  ( E.g : MySQL, MongoDb, Cassandra)
 
-## Release Note - version 0.1.6
+## Release Note - version 0.1.6.1
 Support for Mongodb and Cassandra(Datastax Astra) are available.
 Features available:
 1. Create database/tables

@@ -4,3 +4,4 @@ dnspython
 cassandra-driver
 pandas
 numpy
+ensure

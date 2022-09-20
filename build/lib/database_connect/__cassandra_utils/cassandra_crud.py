@@ -3,7 +3,7 @@ from cassandra.cluster import NoHostAvailable
 import pandas as pd
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
-
+from ensure import ensure_annotations
 
 
 
@@ -11,7 +11,8 @@ class cassandra_operations:
 
     # session = None
     global_session = None   #storing the session
-    def __init__(self, zip_path, client_id, client_secret, keyspace,table_name):
+    @ensure_annotations
+    def __init__(self, zip_path:str, client_id:str, client_secret:str, keyspace:str,table_name:str):
         self.zip = zip_path
         self.client_id = client_id       
         self.client_secret = client_secret
@@ -102,7 +103,8 @@ class cassandra_operations:
 
         return self.__table_is_available
 
-    def __value_transformations(self,values_to_insert):
+    @ensure_annotations
+    def __value_transformations(self,values_to_insert:str):
         """
         by default the values will be in a single quotation, that is why
         when we split the values, it will be inside quotation which if tried to upload
@@ -110,7 +112,7 @@ class cassandra_operations:
         See the example below.
 
         Args:
-            values (str): a string containing values
+            values_to_insert (str): a string containing values
 
         Returns:
             tuple: the transformed values
@@ -145,7 +147,10 @@ class cassandra_operations:
                 pass
         return tuple(values)
 
-    def create_table(self, columns, table_name = None ): 
+
+
+    @ensure_annotations
+    def create_table(self, columns:str, table_name = None ): 
 
         """
         to create a new table in cassandra database
@@ -184,8 +189,8 @@ class cassandra_operations:
         # print('database connected and table created')
         # lg.log(logfile, f'cassandra db:'+
         #         f'\n database connected and {self.tab} has been created')
-
-    def insert_data(self, columns,values, table_name=None):
+    @ensure_annotations
+    def insert_data(self, columns:str,values:str, table_name=None):
         """ insert data into cassandra database
 
         -------
@@ -413,13 +418,17 @@ class cassandra_operations:
                                     
                                     """)
 
-
-    def update_table(self, where_condition, update_statement, table_name = None):  
+    @ensure_annotations
+    def update_table(self, where_condition:dict, update_statement:dict, table_name = None):  
         """
+            To Update the table with where condition and update statement
+
         where_condition: dict,
                                to find the data in mongo database -- example of query {"name":"sourav"}"                update_statement : dict,
                                query to update the data in mongo database -- example of query {"name":"rahul"}
 
+        update_statement: dict,
+                            To set the column and value which are going to be updated.
         EXAMPLE:
                 
                 where_condition = {"name":'Rahul Roy'}
@@ -450,7 +459,8 @@ class cassandra_operations:
 
 
 
-    def delete_record(self, condition, table_name = None):
+    @ensure_annotations
+    def delete_record(self, condition:dict, table_name = None):
         """
             Delete record in cassandra database.
 

@@ -4,6 +4,7 @@ import os
 import pandas as pd
 import pymongo
 import json
+from ensure import ensure_annotations
 
 class mongo_operation:
     """
@@ -20,7 +21,8 @@ class mongo_operation:
     __collection = None # a variable that will be storing the collection name
     __database = None # a variable that will be storing the database name
 
-    def __init__(self, client_url, database_name,collection_name):
+    @ensure_annotations
+    def __init__(self, client_url: str, database_name: str,collection_name:str):
         self.client_url = client_url
         self.database_name = database_name
         self.collection_name = collection_name
@@ -50,7 +52,8 @@ class mongo_operation:
         return self.database
     
     @__connect_database.setter
-    def set_new_database(self, database):
+    @ensure_annotations
+    def set_new_database(self, database:str):
         """to set a new database name for the MongoClient
 
         Args:
@@ -74,7 +77,8 @@ class mongo_operation:
         return self.collection
             
     @__connect_collection.setter
-    def set_new_collection(self,collection_name):
+    @ensure_annotations
+    def set_new_collection(self,collection_name:str):
         """ to set a new collection name for mongo_operation
 
         Args:
@@ -88,8 +92,8 @@ class mongo_operation:
     
 
 
-
-    def insert_record(self, record) -> Any: 
+    @ensure_annotations
+    def insert_record(self, record: dict) -> Any: 
         """
         insert one record to mongodb
 
@@ -125,7 +129,7 @@ class mongo_operation:
             self.__connect_collection.insert_one(record)
 
 
-
+    @ensure_annotations
     def bulk_insert(self, data, **kwargs):
         """ insert data from dataframe object / csv /excel file to mongodb
         
@@ -155,8 +159,8 @@ class mongo_operation:
         # print('data inserted ')
         # lg.info('data inserted successfully')
 
-
-    def find(self,  query={}):
+    @ensure_annotations
+    def find(self,  query:dict={}) :
         """
         To find data in mongo database
         returns dataframe of the searched data. 
@@ -183,7 +187,9 @@ class mongo_operation:
 
         return data 
 
-    def update(self, where_condition,update_query, update_all_data = False):
+
+    @ensure_annotations
+    def update(self, where_condition:dict,update_query:dict, update_all_data = False):
         """
         To update data in mongo database
         
@@ -211,8 +217,8 @@ class mongo_operation:
             self.__connect_collection.update_one(where_condition, {'$set':update_query})
         
 
-
-    def delete_record(self, where_condition, delete_all=False):
+    @ensure_annotations
+    def delete_record(self, where_condition:dict, delete_all=False):
         """_summary_
 
         Args:
