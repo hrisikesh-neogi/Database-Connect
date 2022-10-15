@@ -12,8 +12,8 @@ class mongo_operation:
     
     -------
     PARAMS:
-        client_id: The client url that you get from mongodb webpage.
-        database name: The database one wants to connect to.
+        client_url: The client url that you get from mongodb webpage.
+        database_name: The database one wants to connect to.
         collection_name: The name of the collection you want to connect to.
 
     
