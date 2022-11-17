@@ -6,7 +6,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup( 
     name = "database_connect",
-    version="0.1.6.1",
+    version="0.1.6.2",
     author="Hrisikesh Neogi",
     author_email="hrisikesh.neogi@gmail.com",
     description= "A single Package for all the database connectivities  ( E.g : MySQL, MongoDb, Cassandra)",
