@@ -5,7 +5,9 @@ Summary: A single Package for all the database connectivities  ( E.g : MySQL, Mo
 Home-page: https://github.com/hrisikesh-neogi/Database-Connect
 Author: Hrisikesh Neogi
 Author-email: hrisikesh.neogi@gmail.com
+License: UNKNOWN
 Project-URL: Bug Tracker, https://github.com/hrisikesh-neogi/Database-Connect/issues
+Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
@@ -93,3 +95,4 @@ For any suggestion, contact me on <a href="mailto: hrisikesh.neogi@gmail.com">hr
                                     
    
    
+

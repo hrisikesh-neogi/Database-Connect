@@ -21,8 +21,7 @@ class mongo_operation:
     __collection = None # a variable that will be storing the collection name
     __database = None # a variable that will be storing the database name
 
-    @ensure_annotations
-    def __init__(self, client_url: str, database_name: str,collection_name:str):
+    def __init__(self, client_url: str, database_name: str,collection_name:str =  None):
         self.client_url = client_url
         self.database_name = database_name
         self.collection_name = collection_name
@@ -93,7 +92,7 @@ class mongo_operation:
 
 
     @ensure_annotations
-    def insert_record(self, record: dict) -> Any: 
+    def insert_record(self, record: dict, collection_name:str) -> Any: 
         """
         insert one record to mongodb
 
@@ -119,7 +118,7 @@ class mongo_operation:
                             )
         """
 
-        
+        self.set_new_collection(collection_name =  collection_name)
         if type(record) == list:
             for data in record:
                 if type(data) != dict:
@@ -130,7 +129,7 @@ class mongo_operation:
 
 
     @ensure_annotations
-    def bulk_insert(self, data, **kwargs):
+    def bulk_insert(self, data,collection_name:str = None, **kwargs ):
         """ insert data from dataframe object / csv /excel file to mongodb
         
         ------
@@ -142,9 +141,10 @@ class mongo_operation:
         
         """
 
-       
+        if collection_name:
+            self.set_new_collection(collection_name= collection_name)
 
-        if type(data) != pd.core.frame.DataFrame:
+        if isinstance(data, pd.DataFrame):
             
             path = data
             if path.endswith('.csv'):
@@ -160,7 +160,7 @@ class mongo_operation:
         # lg.info('data inserted successfully')
 
     @ensure_annotations
-    def find(self,  query:dict={}) :
+    def find(self, collection_name:str = None,  query:dict={}) :
         """
         To find data in mongo database
         returns dataframe of the searched data. 
@@ -170,7 +170,9 @@ class mongo_operation:
                     query to find the data in mongo database 
                     -- example of query -- {"name":"sourav"}
         """
-        
+        if collection_name:
+            self.set_new_collection(collection_name= collection_name)
+            
         if self.collection_name not in self.__connect_database.list_collection_names():
             raise NameError("""Collection not found in mongo database. Following could be the reason.
                               1. Check the spelling or check the name of the collection.
@@ -185,7 +187,7 @@ class mongo_operation:
         data =  pd.DataFrame(list(cursor))
     
 
-        return data 
+        return data
 
 
     @ensure_annotations
