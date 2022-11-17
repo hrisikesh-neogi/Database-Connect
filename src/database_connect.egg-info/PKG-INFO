@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: database-connect
-Version: 0.1.6.2
+Version: 0.1.62
 Summary: A single Package for all the database connectivities  ( E.g : MySQL, MongoDb, Cassandra)
 Home-page: https://github.com/hrisikesh-neogi/Database-Connect
 Author: Hrisikesh Neogi

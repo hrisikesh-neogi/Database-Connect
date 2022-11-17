@@ -129,12 +129,12 @@ class mongo_operation:
 
 
     @ensure_annotations
-    def bulk_insert(self, data,collection_name:str = None, **kwargs ):
+    def bulk_insert(self, dataframe:str,collection_name:str = None, **kwargs ):
         """ insert data from dataframe object / csv /excel file to mongodb
         
         ------
         PARAMS: 
-              data : path of the csv file or pandas dataframe object
+              dataframe : path of the csv file or pandas dataframe object
               
               **kwargs :
                         any parameters of pandas read function.
@@ -144,20 +144,19 @@ class mongo_operation:
         if collection_name:
             self.set_new_collection(collection_name= collection_name)
 
-        if isinstance(data, pd.DataFrame):
+        if isinstance(dataframe, pd.DataFrame):
             
-            path = data
+            path = dataframe
             if path.endswith('.csv'):
-                data = pd.read_csv(path, encoding='utf8', **kwargs)
+                dataframe = pd.read_csv(path, encoding='utf8', **kwargs)
             elif path.endswith('.xlsx'):
-                data = pd.read_excel(path, encoding = 'utf8', **kwargs)
+                dataframe = pd.read_excel(path, encoding = 'utf8', **kwargs)
 
     
             
-        data_json = json.loads(data.to_json(orient='records'))
+        data_json = json.loads(dataframe.to_json(orient='records'))
         self.__connect_collection.insert_many(data_json)
-        # print('data inserted ')
-        # lg.info('data inserted successfully')
+       
 
     @ensure_annotations
     def find(self, collection_name:str = None,  query:dict={}) :
