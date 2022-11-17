@@ -129,12 +129,12 @@ class mongo_operation:
 
 
     @ensure_annotations
-    def bulk_insert(self, data,collection_name:str = None, **kwargs ):
+    def bulk_insert(self, dataframe:str,collection_name:str = None, **kwargs ):
         """ insert data from dataframe object / csv /excel file to mongodb
         
         ------
         PARAMS: 
-              data : path of the csv file or pandas dataframe object
+              dataframe : path of the csv file or pandas dataframe object
               
               **kwargs :
                         any parameters of pandas read function.

@@ -3,6 +3,8 @@ echo [$(date)]: "deleting existing dist files"
 rm -r dist
 echo [$(date)]: "deleting existing build files"
 rm -r build 
+echo [$(date)]: "deleting existing egg files"
+rm -r database_connect.egg-info
 echo [$(date)]: "Creating conda env with python 3.8"
 conda create --prefix ./env python=3.8 -y
 echo [$(date)]: "activate env"
