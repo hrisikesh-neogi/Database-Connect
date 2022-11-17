@@ -129,7 +129,7 @@ class mongo_operation:
 
 
     @ensure_annotations
-    def bulk_insert(self, dataframe:str,collection_name:str = None, **kwargs ):
+    def bulk_insert(self, dataframe ,collection_name:str = None, **kwargs ):
         """ insert data from dataframe object / csv /excel file to mongodb
         
         ------
@@ -144,7 +144,7 @@ class mongo_operation:
         if collection_name:
             self.set_new_collection(collection_name= collection_name)
 
-        if isinstance(dataframe, pd.DataFrame):
+        if not isinstance(dataframe, pd.DataFrame):
             
             path = dataframe
             if path.endswith('.csv'):

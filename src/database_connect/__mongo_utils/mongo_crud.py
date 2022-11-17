@@ -129,7 +129,7 @@ class mongo_operation:
 
 
     @ensure_annotations
-    def bulk_insert(self, dataframe:str,collection_name:str = None, **kwargs ):
+    def bulk_insert(self, dataframe ,collection_name:str = None, **kwargs ):
         """ insert data from dataframe object / csv /excel file to mongodb
         
         ------
@@ -142,7 +142,7 @@ class mongo_operation:
         """
 
         if collection_name:
-            self.set_new_collection(collection_name= collection_name)
+           self.set_new_collection = collection_name
 
         if not isinstance(dataframe, pd.DataFrame):
             
@@ -170,7 +170,7 @@ class mongo_operation:
                     -- example of query -- {"name":"sourav"}
         """
         if collection_name:
-            self.set_new_collection(collection_name= collection_name)
+           self.set_new_collection = collection_name
             
         if self.collection_name not in self.__connect_database.list_collection_names():
             raise NameError("""Collection not found in mongo database. Following could be the reason.
